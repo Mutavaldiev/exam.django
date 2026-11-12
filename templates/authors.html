@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Authors{% endblock %}
+
+{% block content %}
+    <h2>Authors</h2>
+
+    {% for author in authors %}
+        <div class="card">
+            <h3>{{ author.name_author }}</h3>
+            <p>Number of Books: {{ author.book }}</p>
+            <p>Status: {% if author.is_active %}Active{% else %}Inactive{% endif %}</p>
+
+            <a href="{% url 'update_author' author.id %}">Edit</a>
+            <form method="POST" action="{% url 'delete_author' author.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>No authors found.</p>
+    {% endfor %}
+{% endblock %}

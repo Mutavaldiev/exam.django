@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Books{% endblock %}
+
+{% block content %}
+    <h2>Books</h2>
+
+    {% for book in books %}
+        <div class="card">
+            {% if book.picture %}
+                <img src="{{ book.picture.url }}" alt="{{ book.name }}" width="120">
+            {% endif %}
+            <h3>{{ book.name }}</h3>
+            <p>{{ book.title }}</p>
+            <p>{{ book.caption }}</p>
+            <p>Available: {{ book.available }} / {{ book.quantity }}</p>
+
+            <a href="{% url 'update_book' book.id %}">Edit</a>
+            <form method="POST" action="{% url 'delete_book' book.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>No books found.</p>
+    {% endfor %}
+{% endblock %}

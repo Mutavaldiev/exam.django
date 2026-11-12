@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Library Home{% endblock %}
+
+{% block content %}
+    <h2>Welcome to Our Library</h2>
+    <p>Discover and explore your favorite books.</p>
+
+    <a href="{% url 'books' %}"><button>Explore Books</button></a>
+    <a href="{% url 'orders' %}"><button>Borrow Book</button></a>
+{% endblock %}

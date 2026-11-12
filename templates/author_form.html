@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{% if author %}Edit Author{% else %}Add Author{% endif %}{% endblock %}
+{% block content %}
+    <h2>{% if author %}Edit Author{% else %}Add Author{% endif %}</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="name_author" placeholder="Author Name"required>
+        <input type="number" name="book" placeholder="Number of Books" min="0" required>
+        <select name="is_active">
+            <option value="True" {% if not author or author.is_active %}selected{% endif %}>Active</option>
+            <option value="False" {% if author and not author.is_active %}selected{% endif %}>Inactive</option>
+        </select>
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}

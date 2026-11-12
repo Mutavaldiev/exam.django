@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Borrow a Book</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="text" name="phone" placeholder="Phone Number" required>
+        <input type="number" name="order_number" placeholder="Order Number" required>
+
+        <select name="books_id" required>
+            <option value="">Select Book</option>
+            {% for book in books %}
+                <option value="{{ book.id }}">{{ book.name }} (available: {{ book.available }})</option>
+            {% endfor %}
+        </select>
+
+        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+        <label>Start Date <input type="date" name="start_date" required></label>
+        <label>End Date <input type="date" name="end_date" required></label>
+        <button type="submit">Submit Order</button>
+    </form>
+
+
+    
+    <h2>All Orders</h2>
+
+    {% for order in orders %}
+        <div class="card">
+            <h3>#{{ order.order_number }}: {{ order.name }} ({{ order.phone }})</h3>
+            <p>Book: {{ order.books_id.name }}, Quantity: {{ order.quantity }}</p>
+            <p>{{ order.start_date }} → {{ order.end_date }} ({{ order.days }} days)</p>
+
+            <form method="POST" action="{% url 'delete_order' order.id %}"
+                  onsubmit="return confirm('Delete this order?');">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+
+        
+    {% empty %}
+        <p>No orders yet.</p>
+    {% endfor %}
+{% endblock %}
